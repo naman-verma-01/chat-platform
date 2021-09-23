@@ -1,0 +1,104 @@
+<html>
+
+	<head>
+		<title>Chat Room</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+		<style>
+			body{
+				 background: linear-gradient(0deg,#d5dbe3 ,#ff9c9c);	
+				 font-family: 'Poppins', sans-serif;
+			}
+
+			#chat{
+
+				overflow-y: scroll;
+				height: 500px;
+				width: 400px;
+				padding:10px;
+
+			}
+			#chat::-webkit-scrollbar {
+			    display: none; /* for Chrome, Safari, and Opera */
+			}
+			#chat-box{
+				background:#fc6a6a;
+				border: none;
+				float : center;
+				margin:0.5%;
+				margin-left:30%;	
+				margin-right:30%;	
+				border-radius:20px;
+				padding:0px;
+			}
+
+			#chat-input{
+				width:50%;
+				height:5%;
+				border :none;
+				border-radius:20px;
+			}
+
+			#input-area{
+				background:#ff9c9c;
+				padding:0;
+				padding:10px;
+				border-radius:20px;
+				font-family: 'Poppins', sans-serif;
+			}
+
+
+
+			#submit {
+
+				color: black;
+				border: 2px solid #555555;
+				background: #b0f78d;
+				width:30%;
+				height:5%;
+				margin-bottom:1px;
+				border :none;
+				border-radius:20px;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			#submit:hover {
+			  background-color: #d8ffd6;
+			  color: black;
+			}
+
+			p{
+				padding:10px;
+				text-align:center;
+			}
+		</style>	
+	</head>
+
+
+	<body style="linear-gradient(225deg,#bdc3c7 ,#2c3e50);"	>
+		<h2>{{ session['room'] }}</h2>
+		<div id="chat-box">
+			<p>Chat will show here....<br><br></p>
+			<div id="chat" > </div>
+			<div id="input-area">
+				<input style="align: center;" id="chat-input" type="text"> 
+				
+				<button id="submit" style="float: right;" onclick="sendMessage()">Send Message</button>
+				
+			</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+		<script>
+			socket = io()
+			function sendMessage () {
+				
+				socket.emit("message",document.getElementById("chat-input").value)
+			}
+			socket.on("new_message",(data)=>{
+				document.getElementById("chat").innerHTML+="<br>"+ data;
+			})
+		</script>
+	</body>
+</html>
